@@ -12,6 +12,7 @@ Native SDKs for building TaskDaemon handlers in any language.
 | Rust | `cargo add taskdaemon-handler` |
 | Java | Maven: `com.taskdaemon:handler` |
 | C# | `dotnet add package TaskDaemon.Handler` |
+| C++ | Header-only: copy `cpp/include/taskdaemon.hpp` |
 
 ## Quick Start
 
@@ -68,6 +69,7 @@ Handlers communicate via stdin/stdout with line-delimited JSON.
 - [Rust SDK](rust/README.md)
 - [Java SDK](java/README.md)
 - [C# SDK](csharp/README.md)
+- [C++ SDK](cpp/README.md)
 
 ## License
 
