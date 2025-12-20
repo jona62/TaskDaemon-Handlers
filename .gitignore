@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.egg-info/
+dist/
+.venv/
+
+# Node.js
+node_modules/
+dist/
+
+# Go
+*.exe
+
+# Rust
+target/
+Cargo.lock
+
+# Java
+target/
+*.class
+*.jar
+
+# C#
+bin/
+obj/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
