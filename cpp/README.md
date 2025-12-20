@@ -4,7 +4,21 @@ Header-only SDK using [nlohmann/json](https://github.com/nlohmann/json).
 
 ## Installation
 
-Copy `include/taskdaemon.hpp` to your project, or use CMake FetchContent:
+### Option 1: Direct Download
+
+```bash
+curl -O https://raw.githubusercontent.com/jona62/TaskDaemon-Handlers/main/cpp/include/taskdaemon.hpp
+```
+
+### Option 2: Git Submodule
+
+```bash
+git submodule add https://github.com/jona62/TaskDaemon-Handlers.git libs/taskdaemon
+```
+
+Then include: `#include "libs/taskdaemon/cpp/include/taskdaemon.hpp"`
+
+### Option 3: CMake FetchContent
 
 ```cmake
 include(FetchContent)
