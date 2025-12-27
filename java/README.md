@@ -32,10 +32,15 @@ public class MyHandler {
 ```dockerfile
 FROM maven:3.9-eclipse-temurin-17 AS builder
 WORKDIR /app
-COPY . .
+COPY pom.xml .
+COPY src ./src
 RUN mvn package -q
 
 FROM eclipse-temurin:17-jre-alpine
 COPY --from=builder /app/target/handler.jar /handler.jar
 CMD ["java", "-jar", "/handler.jar"]
 ```
+
+<Note>
+Add the taskdaemon handler dependency to your pom.xml before building.
+</Note>

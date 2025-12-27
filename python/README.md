@@ -22,6 +22,7 @@ run(handler)
 
 ```dockerfile
 FROM python:3.11-slim
+RUN pip install --no-cache-dir taskdaemon
 COPY handler.py /handler.py
 CMD ["python", "-u", "/handler.py"]
 ```

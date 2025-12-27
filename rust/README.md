@@ -29,10 +29,15 @@ fn main() {
 ```dockerfile
 FROM rust:1.75-alpine AS builder
 WORKDIR /app
-COPY . .
+COPY Cargo.toml Cargo.lock ./
+COPY src ./src
 RUN cargo build --release
 
 FROM alpine:latest
 COPY --from=builder /app/target/release/handler /handler
 CMD ["/handler"]
 ```
+
+<Note>
+Add `taskdaemon-handler = "0.1"` to your Cargo.toml dependencies before building.
+</Note>

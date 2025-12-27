@@ -29,6 +29,8 @@ func main() {
 ```dockerfile
 FROM golang:1.21-alpine AS builder
 WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
 COPY . .
 RUN go build -o handler .
 
@@ -36,3 +38,7 @@ FROM alpine:latest
 COPY --from=builder /app/handler /handler
 CMD ["/handler"]
 ```
+
+<Note>
+Run `go mod init myhandler && go get github.com/taskdaemon/handler-go` to create go.mod/go.sum before building.
+</Note>

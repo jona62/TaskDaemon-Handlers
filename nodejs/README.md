@@ -21,6 +21,8 @@ run((task: Task) => {
 
 ```dockerfile
 FROM node:20-slim
-COPY handler.js /handler.js
-CMD ["node", "/handler.js"]
+WORKDIR /app
+RUN npm install @taskdaemon/handler
+COPY handler.js .
+CMD ["node", "handler.js"]
 ```
