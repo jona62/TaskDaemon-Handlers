@@ -14,7 +14,7 @@ git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Ha
 |----------|--------------|
 | Python | `python3 -m pip install taskdaemon==0.1.0` |
 | Node.js | Build and pack `vendor/TaskDaemon-Handlers/nodejs`, then install its local tarball; see [Node.js](nodejs/README.md) |
-| Go | `go get github.com/jona62/TaskDaemon-Handlers/go` |
+| Go | `go get github.com/jona62/TaskDaemon-Handlers/go@v0.1.2` |
 | Rust | Cargo path dependency on `vendor/TaskDaemon-Handlers/rust`; see [Rust](rust/README.md) |
 | Java | `mvn -f vendor/TaskDaemon-Handlers/java/pom.xml install`, then add the local Maven dependency |
 | C# | Project reference to `vendor/TaskDaemon-Handlers/csharp/TaskDaemon/TaskDaemon.Handler.csproj` |

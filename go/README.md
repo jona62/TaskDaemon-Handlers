@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-go get github.com/jona62/TaskDaemon-Handlers/go
+go get github.com/jona62/TaskDaemon-Handlers/go@v0.1.2
 ```
 
 ## Usage
@@ -40,7 +40,7 @@ CMD ["/handler"]
 ```
 
 <Note>
-Run `go mod init myhandler && go get github.com/jona62/TaskDaemon-Handlers/go` to create go.mod/go.sum before building.
+Run `go mod init myhandler && go get github.com/jona62/TaskDaemon-Handlers/go@v0.1.2` to create go.mod/go.sum before building.
 </Note>
 
 ## Protocol and execution

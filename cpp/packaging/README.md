@@ -19,7 +19,13 @@ Ensure the JSON dependency is discoverable through `CMAKE_PREFIX_PATH` or your p
 
 ## vcpkg publication route
 
-The local overlay in `vcpkg/taskdaemon-handler` is usable from the SDK checkout. To submit a curated port:
+The local overlay in `vcpkg/taskdaemon-handler` is usable from the SDK checkout.
+
+The curated submission uses the name `jona62-taskdaemon-handlers` to follow vcpkg's owner-project naming rule for a new port. The local overlay retains `taskdaemon-handler`; both expose the CMake target `taskdaemon::taskdaemon`.
+
+Version `0.1.2` is [submitted upstream](https://github.com/microsoft/vcpkg/pull/54303) with a checked source archive, baseline entry, version database entry, and passing installed consumers. Curated registry availability is pending maintainer acceptance.
+
+To submit a curated port:
 
 1. Publish an immutable SDK `v0.1.2` source tag after release verification.
 2. Replace the overlay's local `SOURCE_PATH` with `vcpkg_from_github` using `REPO jona62/TaskDaemon-Handlers`, the release tag or exact commit, and the downloaded archive's actual SHA512. Configure from the archive's `cpp/` subdirectory.

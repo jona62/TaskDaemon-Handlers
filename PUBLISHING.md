@@ -2,6 +2,8 @@
 
 The coordinated package version is `0.1.2`. Package preparation and registry publication are separate steps: a successful local build or GitHub source release does not mean a package is available from a language registry.
 
+The [source release](https://github.com/jona62/TaskDaemon-Handlers/releases/tag/v0.1.2) contains the tested distribution artifacts and checksums. Go `v0.1.2` is published and verified through the public module proxy. The Python update and first npm, crates.io, NuGet, and Maven Central uploads still require registry access; PyPI `taskdaemon` 0.1.0 remains available.
+
 | Language | Registry coordinate | Publication route |
 | --- | --- | --- |
 | Python | PyPI `taskdaemon` | Update the existing project owned by `jonathanmshelia` |
@@ -10,7 +12,7 @@ The coordinated package version is `0.1.2`. Package preparation and registry pub
 | C# | NuGet `TaskDaemon.Handler` | A trusted-publisher policy or a key permitting new packages |
 | Java | Maven Central `io.github.jona62:handler` | Verified GitHub namespace, Portal token, and signing key |
 | Go | `github.com/jona62/TaskDaemon-Handlers/go` | Push the matching `go/v0.1.2` module tag |
-| C++ | vcpkg `taskdaemon-handler` | Reviewed upstream port; local overlay is already installable |
+| C++ | Curated vcpkg `jona62-taskdaemon-handlers` | Upstream review required; local overlay `taskdaemon-handler` is already installable |
 
 ## Verify and release the source
 
@@ -66,5 +68,9 @@ Check the exact released version from the registry, then install it in a fresh c
 The Go module needs no separate registry credentials. Verify the `go/v0.1.2` tag through the public module proxy and compile a consumer using the pinned version.
 
 For C++, follow the [vcpkg release preparation](cpp/packaging/README.md). The local overlay works immediately, but a curated-registry listing requires an immutable source archive, checksum, tested port, version database entry, and acceptance of an upstream pull request. Keep the publication status explicit until that review completes.
+
+The tested `jona62-taskdaemon-handlers` 0.1.2 port is [submitted for upstream review](https://github.com/microsoft/vcpkg/pull/54303). It is available from the curated registry after acceptance.
+
+Microsoft's [CLA bot request](https://github.com/microsoft/vcpkg/pull/54303#issuecomment-5991376135) requires the contributor to read the agreement and provide the applicable ownership or employer declaration themselves.
 
 Official registry instructions: [PyPI trusted publishing](https://docs.pypi.org/trusted-publishers/adding-a-publisher/), [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/), [crates.io publishing](https://doc.rust-lang.org/cargo/reference/publishing.html), [NuGet trusted publishing](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing), [Maven Central namespace registration](https://central.sonatype.org/register/namespace/), [vcpkg port contribution](https://learn.microsoft.com/en-us/vcpkg/contributing/maintainer-guide).
