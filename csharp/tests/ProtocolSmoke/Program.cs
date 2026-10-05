@@ -27,8 +27,7 @@ finally
     Console.SetOut(originalOutput);
 }
 
-var lines = output.ToString().Split('
-', StringSplitOptions.RemoveEmptyEntries);
+var lines = output.ToString().Split('\n', StringSplitOptions.RemoveEmptyEntries);
 if (lines.Length != 4 || output.FlushCount < 4)
     throw new InvalidOperationException("Expected four flushed JSON response lines");
 for (var index = 0; index < lines.Length; index++)
