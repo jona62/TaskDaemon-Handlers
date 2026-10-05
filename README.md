@@ -4,27 +4,35 @@ Native SDKs for building TaskDaemon handlers in any language.
 
 ## Installation
 
-| Language | Install |
-|----------|---------|
-| Python | `pip install taskdaemon` |
-| Node.js | `npm install @taskdaemon/handler` |
-| Go | `go get github.com/taskdaemon/handler-go` |
-| Rust | `cargo add taskdaemon-handler` |
-| Java | Maven: `com.taskdaemon:handler` |
-| C# | `dotnet add package TaskDaemon.Handler` |
-| C++ | Header-only: copy `cpp/include/taskdaemon.hpp` |
+Python is available as `taskdaemon==0.1.0` on PyPI. For the other SDKs, clone the source into your handler project's build context:
+
+```bash
+git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
+```
+
+| Language | Installation |
+|----------|--------------|
+| Python | `python3 -m pip install taskdaemon==0.1.0` |
+| Node.js | Build and pack `vendor/TaskDaemon-Handlers/nodejs`, then install its local tarball; see [Node.js](nodejs/README.md) |
+| Go | `go get github.com/jona62/TaskDaemon-Handlers/go` |
+| Rust | Cargo path dependency on `vendor/TaskDaemon-Handlers/rust`; see [Rust](rust/README.md) |
+| Java | `mvn -f vendor/TaskDaemon-Handlers/java/pom.xml install`, then add the local Maven dependency |
+| C# | Project reference to `vendor/TaskDaemon-Handlers/csharp/TaskDaemon/TaskDaemon.Handler.csproj` |
+| C++ | Header-only: copy `vendor/TaskDaemon-Handlers/cpp/include/taskdaemon.hpp` |
+
+The npm, crates.io, NuGet, and Maven Central packages are not published under the coordinates shown in the SDK manifests. Use these source paths. The published Python 0.1.0 package exports the `run` API used by these examples.
 
 ## Quick Start
 
 ### Python
 
 ```python
-from taskdaemon import handler, Task, Success
+from taskdaemon import run, Task, Success
 
 def process(task: Task) -> Success:
     return Success({"echoed": task.task_data})
 
-handler.run(process)
+run(process)
 ```
 
 ### Node.js
@@ -38,7 +46,7 @@ run(task => success({ echoed: task.task_data }));
 ### Go
 
 ```go
-import "github.com/taskdaemon/handler-go"
+import "github.com/jona62/TaskDaemon-Handlers/go"
 
 func main() {
     taskdaemon.Run(func(task taskdaemon.Task) taskdaemon.Result {
@@ -53,13 +61,23 @@ Handlers communicate via stdin/stdout with line-delimited JSON.
 
 **Input:**
 ```json
-{"task_id":"uuid","task_type":"name","task_data":{...},"attempt":1}
+{"task_id":"uuid","task_type":"name","task_data":{"message":"hello"},"attempt":1}
 ```
 
 **Output:**
 ```json
-{"status":"success","result":{...}}
+{"status":"success","result":{"message":"hello"}}
 ```
+
+An error response uses `status: "error"`, an `error` string, and a `retryable` boolean. A retry is scheduled only when `retryable` is true and the task's retry budget remains:
+
+```json
+{"status":"error","error":"Temporary failure","retryable":true}
+```
+
+Write exactly one response line for each request and flush it immediately. SDK runners handle the response encoding and flushing. Send application logs to stderr. The daemon skips non-JSON stdout lines, but logs that resemble response JSON can be mistaken for results. Each process handles multiple tasks. `attempt` starts at `1` and increases on retries.
+
+Execution timeouts are configured in the daemon. Omit `timeout` in a handler's configuration to inherit `DAEMON_TASK_TIMEOUT`, which defaults to 30 seconds.
 
 ## Documentation
 
@@ -70,6 +88,26 @@ Handlers communicate via stdin/stdout with line-delimited JSON.
 - [Java SDK](java/README.md)
 - [C# SDK](csharp/README.md)
 - [C++ SDK](cpp/README.md)
+
+## SDK checks
+
+Run these checks from the repository root with the corresponding toolchain installed:
+
+```bash
+python3 -m unittest discover -s python/tests -v
+npm install --prefix nodejs
+npm test --prefix nodejs
+go -C go test ./...
+cargo test --manifest-path rust/Cargo.toml
+cargo build --manifest-path rust/Cargo.toml --example echo
+mvn -f java/pom.xml test
+dotnet build csharp/TaskDaemon/TaskDaemon.Handler.csproj
+dotnet run --project csharp/tests/ProtocolSmoke/ProtocolSmoke.csproj
+```
+
+The Python and Node.js tests exercise a persistent stdin/stdout process, response flushing, success/error responses, retryability, and attempt values. Go tests also cover requests larger than 64 KiB and recovery after malformed request lines.
+
+The [SDK checks workflow](.github/workflows/sdk-checks.yml) runs Go race tests and vet, and builds, checks the protocol, and packs the C# SDK. It creates a local package without publishing it.
 
 ## License
 

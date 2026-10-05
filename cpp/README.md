@@ -43,11 +43,14 @@ target_link_libraries(your_target PRIVATE taskdaemon)
 ```cpp
 #include "taskdaemon.hpp"
 #include <algorithm>
+#include <cctype>
 
 int main() {
     taskdaemon::run([](const taskdaemon::Task& task) {
         std::string msg = task.task_data.value("message", "");
-        std::transform(msg.begin(), msg.end(), msg.begin(), ::toupper);
+        std::transform(msg.begin(), msg.end(), msg.begin(), [](unsigned char ch) {
+            return static_cast<char>(std::toupper(ch));
+        });
         return taskdaemon::success({{"uppercase", msg}});
     });
 }
@@ -63,3 +66,9 @@ COPY taskdaemon.hpp /taskdaemon.hpp
 RUN g++ -std=c++17 -O2 -o /handler /handler.cpp
 CMD ["/handler"]
 ```
+
+## Protocol and execution
+
+The runner reads JSON request lines from stdin and writes one flushed JSON response line per task. Keep application logs on stderr. Successful responses use `status: "success"` and `result`; failures use `status: "error"`, `error`, and optional `retryable` (default: false). Retries require `retryable: true` and remaining retry budget. `attempt` starts at `1` and increases on retries.
+
+Set timeouts in the daemon's handler configuration. Omitting `timeout` inherits `DAEMON_TASK_TIMEOUT`, which defaults to 30 seconds.

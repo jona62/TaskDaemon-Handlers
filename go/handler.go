@@ -3,6 +3,8 @@ package taskdaemon
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
+	"io"
 	"os"
 )
 
@@ -31,16 +33,35 @@ func Error(err string, retryable bool) Result {
 type Handler func(Task) Result
 
 func Run(handler Handler) {
-	scanner := bufio.NewScanner(os.Stdin)
-	encoder := json.NewEncoder(os.Stdout)
+	if err := run(os.Stdin, os.Stdout, handler); err != nil {
+		fmt.Fprintln(os.Stderr, "TaskDaemon handler:", err)
+	}
+}
 
-	for scanner.Scan() {
-		var task Task
-		if err := json.Unmarshal(scanner.Bytes(), &task); err != nil {
-			encoder.Encode(Error(err.Error(), false))
-			continue
+func run(input io.Reader, output io.Writer, handler Handler) error {
+	reader := bufio.NewReader(input)
+	encoder := json.NewEncoder(output)
+
+	for {
+		// Scanner's default 64 KiB token limit rejects valid daemon requests.
+		line, readErr := reader.ReadBytes('\n')
+		if len(line) > 0 {
+			var task Task
+			var result Result
+			if err := json.Unmarshal(line, &task); err != nil {
+				result = Error(err.Error(), false)
+			} else {
+				result = handler(task)
+			}
+			if err := encoder.Encode(result); err != nil {
+				return err
+			}
 		}
-		result := handler(task)
-		encoder.Encode(result)
+		if readErr == io.EOF {
+			return nil
+		}
+		if readErr != nil {
+			return readErr
+		}
 	}
 }

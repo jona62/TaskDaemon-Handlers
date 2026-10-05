@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-go get github.com/taskdaemon/handler-go
+go get github.com/jona62/TaskDaemon-Handlers/go
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ package main
 
 import (
     "strings"
-    taskdaemon "github.com/taskdaemon/handler-go"
+    taskdaemon "github.com/jona62/TaskDaemon-Handlers/go"
 )
 
 func main() {
@@ -40,5 +40,11 @@ CMD ["/handler"]
 ```
 
 <Note>
-Run `go mod init myhandler && go get github.com/taskdaemon/handler-go` to create go.mod/go.sum before building.
+Run `go mod init myhandler && go get github.com/jona62/TaskDaemon-Handlers/go` to create go.mod/go.sum before building.
 </Note>
+
+## Protocol and execution
+
+The runner reads JSON request lines from stdin and writes one flushed JSON response line per task. Keep application logs on stderr. Successful responses use `status: "success"` and `result`; failures use `status: "error"`, `error`, and optional `retryable` (default: false). Retries require `retryable: true` and remaining retry budget. `attempt` starts at `1` and increases on retries.
+
+Set timeouts in the daemon's handler configuration. Omitting `timeout` inherits `DAEMON_TASK_TIMEOUT`, which defaults to 30 seconds.

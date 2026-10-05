@@ -2,9 +2,16 @@
 
 ## Installation
 
+This crate is not published on crates.io. Clone the source into your handler project:
+
+```bash
+git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
+```
+
 ```toml
 [dependencies]
-taskdaemon-handler = "0.1"
+taskdaemon-handler = { path = "vendor/TaskDaemon-Handlers/rust" }
+serde = { version = "1", features = ["derive"] }
 ```
 
 ## Usage
@@ -27,10 +34,11 @@ fn main() {
 ## Dockerfile
 
 ```dockerfile
-FROM rust:1.75-alpine AS builder
+FROM rust:1.91-alpine AS builder
 WORKDIR /app
 COPY Cargo.toml Cargo.lock ./
 COPY src ./src
+COPY vendor/TaskDaemon-Handlers/rust ./vendor/TaskDaemon-Handlers/rust
 RUN cargo build --release
 
 FROM alpine:latest
@@ -39,5 +47,11 @@ CMD ["/handler"]
 ```
 
 <Note>
-Add `taskdaemon-handler = "0.1"` to your Cargo.toml dependencies before building.
+Use the source path dependency above and name the example application package `handler` so its binary matches the Dockerfile.
 </Note>
+
+## Protocol and execution
+
+The runner reads JSON request lines from stdin and writes one flushed JSON response line per task. Keep application logs on stderr. Successful responses use `status: "success"` and `result`; failures use `status: "error"`, `error`, and optional `retryable` (default: false). Retries require `retryable: true` and remaining retry budget. `attempt` starts at `1` and increases on retries.
+
+Set timeouts in the daemon's handler configuration. Omitting `timeout` inherits `DAEMON_TASK_TIMEOUT`, which defaults to 30 seconds.
