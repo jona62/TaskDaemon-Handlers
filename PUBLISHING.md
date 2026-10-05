@@ -71,6 +71,6 @@ For C++, follow the [vcpkg release preparation](cpp/packaging/README.md). The lo
 
 The tested `jona62-taskdaemon-handlers` 0.1.2 port is [submitted for upstream review](https://github.com/microsoft/vcpkg/pull/54303). It is available from the curated registry after acceptance.
 
-Microsoft's [CLA bot request](https://github.com/microsoft/vcpkg/pull/54303#issuecomment-5991376135) requires the contributor to read the agreement and provide the applicable ownership or employer declaration themselves.
+Microsoft's [CLA bot request on the pull request](https://github.com/microsoft/vcpkg/pull/54303) requires the contributor to read the agreement and provide the applicable ownership or employer declaration themselves.
 
 Official registry instructions: [PyPI trusted publishing](https://docs.pypi.org/trusted-publishers/adding-a-publisher/), [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/), [crates.io publishing](https://doc.rust-lang.org/cargo/reference/publishing.html), [NuGet trusted publishing](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing), [Maven Central namespace registration](https://central.sonatype.org/register/namespace/), [vcpkg port contribution](https://learn.microsoft.com/en-us/vcpkg/contributing/maintainer-guide).
