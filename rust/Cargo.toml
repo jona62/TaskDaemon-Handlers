@@ -1,9 +1,16 @@
 [package]
 name = "taskdaemon-handler"
-version = "0.1.0"
+version = "0.1.2"
 edition = "2021"
 description = "TaskDaemon handler SDK for Rust"
 license = "MIT"
+homepage = "https://taskdaemon.mintlify.app"
+repository = "https://github.com/jona62/TaskDaemon-Handlers"
+documentation = "https://docs.rs/taskdaemon-handler"
+readme = "README.md"
+keywords = ["taskdaemon", "task-queue", "json", "sdk", "containers"]
+categories = ["development-tools"]
+include = ["Cargo.toml", "README.md", "LICENSE", "src/**", "examples/**"]
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }

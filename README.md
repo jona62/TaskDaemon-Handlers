@@ -20,7 +20,9 @@ git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Ha
 | C# | Project reference to `vendor/TaskDaemon-Handlers/csharp/TaskDaemon/TaskDaemon.Handler.csproj` |
 | C++ | Header-only: copy `vendor/TaskDaemon-Handlers/cpp/include/taskdaemon.hpp` |
 
-The npm, crates.io, NuGet, and Maven Central packages are not published under the coordinates shown in the SDK manifests. Use these source paths. The published Python 0.1.0 package exports the `run` API used by these examples.
+The npm, crates.io, NuGet, and Maven Central packages are not yet published under the coordinates shown in the SDK manifests. The coordinated `0.1.2` distributions are prepared for registry publication; use these source paths until the registry upload is verified. The published Python 0.1.0 package exports the `run` API used by these examples. Java's prepared Maven coordinate is `io.github.jona62:handler:0.1.2`.
+
+See [Publishing the SDKs](PUBLISHING.md) for tested artifacts, registry account setup, trusted-publisher configuration, and the release workflow. C++ also has a tested [vcpkg overlay](cpp/packaging/README.md).
 
 ## Quick Start
 
@@ -107,7 +109,7 @@ dotnet run --project csharp/tests/ProtocolSmoke/ProtocolSmoke.csproj
 
 The Python and Node.js tests exercise a persistent stdin/stdout process, response flushing, success/error responses, retryability, and attempt values. Go tests also cover requests larger than 64 KiB and recovery after malformed request lines.
 
-The [SDK checks workflow](.github/workflows/sdk-checks.yml) runs Go race tests and vet, and builds, checks the protocol, and packs the C# SDK. It creates a local package without publishing it.
+The [SDK checks workflow](.github/workflows/sdk-checks.yml) tests all seven SDKs and builds package artifacts, including installed-consumer checks. The separate [publishing workflow](.github/workflows/publish-packages.yml) uploads a selected registry only from the matching release tag after its account prerequisites are configured.
 
 ## License
 

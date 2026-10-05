@@ -3,8 +3,18 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageId>TaskDaemon.Handler</PackageId>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
+    <Authors>Jonathan James</Authors>
     <Description>TaskDaemon handler SDK for C#</Description>
-    <License>MIT</License>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/jona62/TaskDaemon-Handlers/tree/main/csharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jona62/TaskDaemon-Handlers.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>taskdaemon;handler;queue;stdio</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+  <ItemGroup>
+    <None Update="README.md" Pack="true" PackagePath="/" />
+    <None Update="LICENSE" Pack="true" PackagePath="/" />
+  </ItemGroup>
 </Project>

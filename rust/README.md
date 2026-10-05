@@ -2,7 +2,15 @@
 
 ## Installation
 
-This crate is not published on crates.io. Clone the source into your handler project:
+For the `0.1.2` registry release, add:
+
+```toml
+[dependencies]
+taskdaemon-handler = "0.1.2"
+serde = { version = "1", features = ["derive"] }
+```
+
+Registry installation becomes available when that release is published. For a source installation, clone the SDK into your handler project:
 
 ```bash
 git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
@@ -52,6 +60,6 @@ Use the source path dependency above and name the example application package `h
 
 ## Protocol and execution
 
-The runner reads JSON request lines from stdin and writes one flushed JSON response line per task. Keep application logs on stderr. Successful responses use `status: "success"` and `result`; failures use `status: "error"`, `error`, and optional `retryable` (default: false). Retries require `retryable: true` and remaining retry budget. `attempt` starts at `1` and increases on retries.
+The runner reads JSON request lines from stdin and writes one flushed JSON response line per task. Keep application logs on stderr. Successful responses use `status: "success"` and `result`; failures use `status: "error"`, `error`, and optional `retryable` (default: false). Retries require `retryable: true` and remaining retry budget. A handler request uses `attempt = stored attempts + 1`, initially `1`. The daemon's stored counter increments on retry scheduling or a Failed marking and is unchanged by success. Recovery can repeat the same request attempt.
 
 Set timeouts in the daemon's handler configuration. Omitting `timeout` inherits `DAEMON_TASK_TIMEOUT`, which defaults to 30 seconds.

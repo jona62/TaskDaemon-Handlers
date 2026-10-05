@@ -22,7 +22,7 @@ run(handle)
 """
         environment = os.environ.copy()
         environment['PYTHONPATH'] = str(Path(__file__).resolve().parents[1])
-        process = subprocess.Popen([sys.executable, '-u', '-c', code], stdin=subprocess.PIPE,
+        process = subprocess.Popen([sys.executable, '-c', code], stdin=subprocess.PIPE,
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, env=environment)
         try:
             for number, task_type in enumerate(['echo', 'retry', 'exception', 'echo'], start=1):

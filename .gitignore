@@ -24,6 +24,11 @@ target/
 bin/
 obj/
 
+# Package validation outputs
+/build/
+/install/
+artifacts/
+
 # IDE
 .idea/
 .vscode/

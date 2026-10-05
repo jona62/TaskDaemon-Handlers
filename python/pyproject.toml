@@ -1,14 +1,15 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "taskdaemon"
-version = "0.1.0"
+version = "0.1.2"
 description = "TaskDaemon handler SDK for Python - write task handlers in Python"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
+license-files = ["LICENSE"]
 keywords = ["taskdaemon", "task", "queue", "handler", "worker", "docker"]
 authors = [{name = "Jonathan James"}]
 classifiers = [
@@ -24,4 +25,8 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/jona62/TaskDaemon-Handlers"
 Repository = "https://github.com/jona62/TaskDaemon-Handlers"
+Source = "https://github.com/jona62/TaskDaemon-Handlers/tree/main/python"
 Documentation = "https://taskdaemon.mintlify.app/"
+
+[tool.setuptools]
+packages = ["taskdaemon"]

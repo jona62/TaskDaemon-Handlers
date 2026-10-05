@@ -1,0 +1,4 @@
+taskdaemon-handler provides a CMake target:
+
+    find_package(taskdaemon CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE taskdaemon::taskdaemon)

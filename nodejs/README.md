@@ -3,13 +3,17 @@
 ## Installation
 
 ```bash
-git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
-npm install --prefix vendor/TaskDaemon-Handlers/nodejs
-npm pack ./vendor/TaskDaemon-Handlers/nodejs --pack-destination ./vendor
-npm install ./vendor/taskdaemon-handler-0.1.0.tgz
+npm install @taskdaemon/handler@0.1.2
 ```
 
-The npm package is not published. The local tarball retains the `@taskdaemon/handler` package name, so imports stay the same.
+For a local source build:
+
+```bash
+git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
+npm ci --prefix vendor/TaskDaemon-Handlers/nodejs
+npm pack ./vendor/TaskDaemon-Handlers/nodejs --pack-destination ./vendor
+npm install ./vendor/taskdaemon-handler-0.1.2.tgz
+```
 
 ## Usage
 
@@ -37,8 +41,7 @@ run(task => success({ echoed: task.task_data }));
 ```dockerfile
 FROM node:20-slim
 WORKDIR /app
-COPY vendor/taskdaemon-handler-0.1.0.tgz ./vendor/
-RUN npm install --omit=dev ./vendor/taskdaemon-handler-0.1.0.tgz
+RUN npm install --omit=dev @taskdaemon/handler@0.1.2
 COPY handler.cjs .
 CMD ["node", "handler.cjs"]
 ```
@@ -48,3 +51,17 @@ CMD ["node", "handler.cjs"]
 The runner reads JSON request lines from stdin and writes one flushed JSON response line per task. Keep application logs on stderr. Successful responses use `status: "success"` and `result`; failures use `status: "error"`, `error`, and optional `retryable` (default: false). Retries require `retryable: true` and remaining retry budget. `attempt` starts at `1` and increases on retries.
 
 Set timeouts in the daemon's handler configuration. Omitting `timeout` inherits `DAEMON_TASK_TIMEOUT`, which defaults to 30 seconds.
+
+## Distribution checks
+
+From this directory:
+
+```bash
+npm ci
+npm test
+mkdir -p artifacts
+npm pack --pack-destination artifacts
+node scripts/check-artifact.cjs artifacts/taskdaemon-handler-0.1.2.tgz
+```
+
+The artifact checker installs the tarball in a temporary consumer project and verifies the protocol, CommonJS and ESM imports, and TypeScript declarations.

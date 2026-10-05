@@ -21,7 +21,10 @@ pub fn success<T: Serialize>(result: T) -> Result<T> {
 }
 
 pub fn error<T: Serialize>(msg: impl Into<String>, retryable: bool) -> Result<T> {
-    Result::Error { error: msg.into(), retryable }
+    Result::Error {
+        error: msg.into(),
+        retryable,
+    }
 }
 
 pub fn run<T, F>(handler: F)

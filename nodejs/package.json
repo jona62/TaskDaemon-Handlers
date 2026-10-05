@@ -1,6 +1,6 @@
 {
   "name": "@taskdaemon/handler",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "TaskDaemon handler SDK for Node.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,22 @@
     "typescript": "^5.0.0"
   },
   "license": "MIT",
+  "author": "Jonathan James",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jona62/TaskDaemon-Handlers.git",
+    "directory": "nodejs"
+  },
+  "homepage": "https://github.com/jona62/TaskDaemon-Handlers/tree/main/nodejs#readme",
+  "bugs": {
+    "url": "https://github.com/jona62/TaskDaemon-Handlers/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE"
   ]
 }
