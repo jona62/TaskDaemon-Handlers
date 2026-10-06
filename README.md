@@ -109,7 +109,7 @@ dotnet run --project csharp/tests/ProtocolSmoke/ProtocolSmoke.csproj
 
 The Python and Node.js tests exercise a persistent stdin/stdout process, response flushing, success/error responses, retryability, and attempt values. Go tests also cover requests larger than 64 KiB and recovery after malformed request lines.
 
-The [SDK checks workflow](.github/workflows/sdk-checks.yml) tests all seven SDKs and builds package artifacts, including installed-consumer checks. The separate [publishing workflow](.github/workflows/publish-packages.yml) uploads a selected registry only from the matching release tag after its account prerequisites are configured.
+The [SDK checks workflow](.github/workflows/sdk-checks.yml) tests all seven SDKs and builds package artifacts, including installed-consumer checks. Run the separate [publishing workflow](.github/workflows/publish-packages.yml) from `main`; it checks out the requested version's immutable release tag and uploads a selected registry after its account prerequisites are configured.
 
 ## License
 

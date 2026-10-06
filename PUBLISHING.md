@@ -18,7 +18,7 @@ The [source release](https://github.com/jona62/TaskDaemon-Handlers/releases/tag/
 
 The [SDK checks workflow](.github/workflows/sdk-checks.yml) builds and tests all seven languages. It tests installed Python, npm, NuGet, and C++ packages and exports distribution artifacts. Rust verifies its archive with `cargo package`; Java produces binary, source, and Javadoc jars. Maven signing and Portal validation happen during publication.
 
-After checks pass, create the immutable `v0.1.2` and `go/v0.1.2` tags at the verified commit. The publishing workflow rejects branches, mismatched tags, and inconsistent package versions.
+After checks pass, create the immutable `v0.1.2` and `go/v0.1.2` tags at the verified commit. The publishing workflow always checks out the immutable `v<version>` tag and rejects mismatched source commits and inconsistent package versions. Run the workflow from `main` so publishing fixes can apply without changing released SDK source.
 
 ## Configure registry access
 
@@ -104,11 +104,11 @@ The Maven GPG plugin uses its BC signer, so the workflow does not need a GPG exe
 
 ## Publish a selected registry
 
-Once that registry's prerequisites are configured, select the release tag in the [Publish packages workflow](https://github.com/jona62/TaskDaemon-Handlers/actions/workflows/publish-packages.yml). Choose one registry or `all` and version `0.1.2`.
+Once that registry's prerequisites are configured, select `main` in the [Publish packages workflow](https://github.com/jona62/TaskDaemon-Handlers/actions/workflows/publish-packages.yml). Choose one registry or `all` and version `0.1.2`. The workflow builds the selected version's immutable release tag rather than the branch's SDK source.
 
 ```bash
 gh workflow run publish-packages.yml \
-  --repo jona62/TaskDaemon-Handlers --ref v0.1.2 \
+  --repo jona62/TaskDaemon-Handlers --ref main \
   -f registry=python -f version=0.1.2
 ```
 
