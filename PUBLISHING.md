@@ -2,15 +2,15 @@
 
 The coordinated package version is `0.1.2`. Package preparation and registry publication are separate steps: a successful local build or GitHub source release does not mean a package is available from a language registry.
 
-The [source release](https://github.com/jona62/TaskDaemon-Handlers/releases/tag/v0.1.2) contains the tested distribution artifacts and checksums. Go `v0.1.2` and [NuGet `TaskDaemon.Handler` 0.1.2](https://www.nuget.org/packages/TaskDaemon.Handler/0.1.2) are published and verified with isolated consumers. The Python update and first npm, crates.io, and Maven Central uploads remain pending; PyPI `taskdaemon` 0.1.0 remains available.
+The [source release](https://github.com/jona62/TaskDaemon-Handlers/releases/tag/v0.1.2) contains the tested distribution artifacts and checksums. Go `v0.1.2`, [npm `@taskdaemon/handler` 0.1.2](https://www.npmjs.com/package/@taskdaemon/handler/v/0.1.2), [crates.io `taskdaemon-handler` 0.1.2](https://crates.io/crates/taskdaemon-handler/0.1.2), and [NuGet `TaskDaemon.Handler` 0.1.2](https://www.nuget.org/packages/TaskDaemon.Handler/0.1.2) are published and verified with isolated consumers. The Python update and Maven Central upload remain pending; PyPI `taskdaemon` 0.1.0 remains available.
 
 The first npm upload requires a token with publishing access and **Bypass two-factor authentication**. crates.io requires a verified account email. Maven Central requires both its publishing token pair and a PGP signing key. Credentials stored in GitHub do not satisfy these separate registry prerequisites by themselves.
 
 | Language | Registry coordinate | Publication route |
 | --- | --- | --- |
 | Python | PyPI `taskdaemon` | Update the existing project owned by `jonathanmshelia` |
-| Node.js | npm `@taskdaemon/handler` | First publication requires ownership of the `@taskdaemon` scope |
-| Rust | crates.io `taskdaemon-handler` | First publication requires a verified registry account |
+| Node.js | npm `@taskdaemon/handler` | Published and verified at `0.1.2`, with provenance |
+| Rust | crates.io `taskdaemon-handler` | Published and verified at `0.1.2` |
 | C# | NuGet `TaskDaemon.Handler` | Published and verified at `0.1.2`, owned by `jonathanmshelia` |
 | Java | Maven Central `io.github.jona62:handler` | Verified GitHub namespace, Portal token, and signing key |
 | Go | `github.com/jona62/TaskDaemon-Handlers/go` | Push the matching `go/v0.1.2` module tag |
@@ -79,7 +79,7 @@ Official instructions: [scoped API keys](https://learn.microsoft.com/en-us/nuget
 
 ### Maven Central: token pair and signing key
 
-Sign in to [Central](https://central.sonatype.com) using GitHub `jona62`. Confirm that `io.github.jona62` appears as verified in **View Namespaces**. Open [User Tokens](https://central.sonatype.com/usertoken), select **Generate User Token**, and enter a display name and expiration. Save its generated username as `CENTRAL_USERNAME` and its generated password as `CENTRAL_PASSWORD`; these are the publishing token pair, not the account's login/password.
+Sign in to [Central](https://central.sonatype.com) with the account that owns the publishing token. Confirm that `io.github.jona62` appears as verified in **View Namespaces**. Different sign-in methods create separate Central accounts, even with the same email. GitHub sign-in as `jona62` normally provisions this namespace automatically; contact Central support if it is missing. For an email or Google account, register `io.github.jona62`, create the temporary public repository `jona62/VERIFICATION_KEY` using the assigned key, and complete verification before uploading. Open [User Tokens](https://central.sonatype.com/usertoken), select **Generate User Token**, and enter a display name and expiration. Save its generated username as `CENTRAL_USERNAME` and its generated password as `CENTRAL_PASSWORD`; these are the publishing token pair, not the account's login/password.
 
 The separate signing key is generated locally. With GnuPG installed, create a passphrase-protected RSA signing key and list its fingerprint:
 
@@ -98,7 +98,7 @@ gpg --armor --export-secret-keys "$TASKDAEMON_SIGNING_FINGERPRINT" |
 gh secret set MAVEN_GPG_PASSPHRASE --repo jona62/TaskDaemon-Handlers
 ```
 
-The last command prompts for the key passphrase. Keep the original GnuPG key and its revocation certificate backed up; the pipeline does not write a private-key file into the repository. If selecting among multiple exported keys, also set `MAVEN_GPG_KEY_FINGERPRINT` to the full fingerprint.
+The last command prompts for the key passphrase. Keep the original GnuPG key and its revocation certificate backed up; the pipeline does not write a private-key file into the repository. If selecting among multiple exported keys, also set `MAVEN_GPG_KEY_FINGERPRINT` to the full fingerprint. Check that a fresh keyring can retrieve the public key by its long key ID before uploading; keyserver propagation can temporarily prevent Central from validating signatures.
 
 Official instructions: [Portal tokens](https://central.sonatype.org/publish/generate-portal-token/), [namespace registration](https://central.sonatype.org/register/namespace/), [Central signing requirements](https://central.sonatype.org/publish/requirements/gpg/), [GnuPG key generation](https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html).
 

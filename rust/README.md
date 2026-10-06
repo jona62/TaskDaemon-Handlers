@@ -2,23 +2,19 @@
 
 ## Installation
 
-For the `0.1.2` registry release, add:
+Create a binary project with `cargo init --bin --name handler`, then add the published [crates.io package](https://crates.io/crates/taskdaemon-handler/0.1.2):
 
 ```toml
 [dependencies]
-taskdaemon-handler = "0.1.2"
+taskdaemon-handler = "=0.1.2"
 serde = { version = "1", features = ["derive"] }
 ```
 
-Registry installation becomes available when that release is published. For a source installation, clone the SDK into your handler project:
-
-```bash
-git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
-```
+For a source installation, replace the crate dependency with the immutable release tag:
 
 ```toml
 [dependencies]
-taskdaemon-handler = { path = "vendor/TaskDaemon-Handlers/rust" }
+taskdaemon-handler = { git = "https://github.com/jona62/TaskDaemon-Handlers.git", tag = "v0.1.2" }
 serde = { version = "1", features = ["derive"] }
 ```
 
@@ -39,24 +35,24 @@ fn main() {
 }
 ```
 
+Save the example as `src/main.rs` and run `cargo build`. Commit the generated `Cargo.lock` with your handler project so deployments use the resolved dependency versions.
+
 ## Dockerfile
 
 ```dockerfile
 FROM rust:1.91-alpine AS builder
+RUN apk add --no-cache musl-dev
 WORKDIR /app
 COPY Cargo.toml Cargo.lock ./
 COPY src ./src
-COPY vendor/TaskDaemon-Handlers/rust ./vendor/TaskDaemon-Handlers/rust
-RUN cargo build --release
+RUN cargo build --release --locked
 
 FROM alpine:latest
 COPY --from=builder /app/target/release/handler /handler
 CMD ["/handler"]
 ```
 
-<Note>
-Use the source path dependency above and name the example application package `handler` so its binary matches the Dockerfile.
-</Note>
+The example application package is named `handler`, matching the binary copied into the image. Build the application once before building the image so `Cargo.lock` is present.
 
 ## Protocol and execution
 

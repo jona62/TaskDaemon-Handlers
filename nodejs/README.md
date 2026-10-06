@@ -3,13 +3,13 @@
 ## Installation
 
 ```bash
-npm install @taskdaemon/handler@0.1.2
+npm install --save-exact @taskdaemon/handler@0.1.2
 ```
 
-For a local source build:
+For a local source build from the same release:
 
 ```bash
-git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
+git clone --branch v0.1.2 --depth 1 https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
 npm ci --prefix vendor/TaskDaemon-Handlers/nodejs
 npm pack ./vendor/TaskDaemon-Handlers/nodejs --pack-destination ./vendor
 npm install ./vendor/taskdaemon-handler-0.1.2.tgz
