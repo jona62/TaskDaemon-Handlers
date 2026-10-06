@@ -2,14 +2,16 @@
 
 The coordinated package version is `0.1.2`. Package preparation and registry publication are separate steps: a successful local build or GitHub source release does not mean a package is available from a language registry.
 
-The [source release](https://github.com/jona62/TaskDaemon-Handlers/releases/tag/v0.1.2) contains the tested distribution artifacts and checksums. Go `v0.1.2` is published and verified through the public module proxy. The Python update and first npm, crates.io, NuGet, and Maven Central uploads still require registry access; PyPI `taskdaemon` 0.1.0 remains available.
+The [source release](https://github.com/jona62/TaskDaemon-Handlers/releases/tag/v0.1.2) contains the tested distribution artifacts and checksums. Go `v0.1.2` and [NuGet `TaskDaemon.Handler` 0.1.2](https://www.nuget.org/packages/TaskDaemon.Handler/0.1.2) are published and verified with isolated consumers. The Python update and first npm, crates.io, and Maven Central uploads remain pending; PyPI `taskdaemon` 0.1.0 remains available.
+
+The first npm upload requires a token with publishing access and **Bypass two-factor authentication**. crates.io requires a verified account email. Maven Central requires both its publishing token pair and a PGP signing key. Credentials stored in GitHub do not satisfy these separate registry prerequisites by themselves.
 
 | Language | Registry coordinate | Publication route |
 | --- | --- | --- |
 | Python | PyPI `taskdaemon` | Update the existing project owned by `jonathanmshelia` |
 | Node.js | npm `@taskdaemon/handler` | First publication requires ownership of the `@taskdaemon` scope |
 | Rust | crates.io `taskdaemon-handler` | First publication requires a verified registry account |
-| C# | NuGet `TaskDaemon.Handler` | A trusted-publisher policy or a key permitting new packages |
+| C# | NuGet `TaskDaemon.Handler` | Published and verified at `0.1.2`, owned by `jonathanmshelia` |
 | Java | Maven Central `io.github.jona62:handler` | Verified GitHub namespace, Portal token, and signing key |
 | Go | `github.com/jona62/TaskDaemon-Handlers/go` | Push the matching `go/v0.1.2` module tag |
 | C++ | Curated vcpkg `jona62-taskdaemon-handlers` | Upstream review required; local overlay `taskdaemon-handler` is already installable |

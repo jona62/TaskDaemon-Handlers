@@ -4,10 +4,10 @@ Native SDKs for building TaskDaemon handlers in any language.
 
 ## Installation
 
-Python is available as `taskdaemon==0.1.0` on PyPI. For the other SDKs, clone the source into your handler project's build context:
+Python `taskdaemon==0.1.0`, Go `v0.1.2`, and NuGet `TaskDaemon.Handler` 0.1.2 are published and verified. For SDKs still awaiting registry publication, clone the release source into your handler project's build context:
 
 ```bash
-git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
+git clone --branch v0.1.2 --depth 1 https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
 ```
 
 | Language | Installation |
@@ -17,10 +17,10 @@ git clone https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Ha
 | Go | `go get github.com/jona62/TaskDaemon-Handlers/go@v0.1.2` |
 | Rust | Cargo path dependency on `vendor/TaskDaemon-Handlers/rust`; see [Rust](rust/README.md) |
 | Java | `mvn -f vendor/TaskDaemon-Handlers/java/pom.xml install`, then add the local Maven dependency |
-| C# | Project reference to `vendor/TaskDaemon-Handlers/csharp/TaskDaemon/TaskDaemon.Handler.csproj` |
+| C# | `dotnet add handler/handler.csproj package TaskDaemon.Handler --version 0.1.2`; see [C#](csharp/README.md) |
 | C++ | Header-only: copy `vendor/TaskDaemon-Handlers/cpp/include/taskdaemon.hpp` |
 
-The npm, crates.io, NuGet, and Maven Central packages are not yet published under the coordinates shown in the SDK manifests. The coordinated `0.1.2` distributions are prepared for registry publication; use these source paths until the registry upload is verified. The published Python 0.1.0 package exports the `run` API used by these examples. Java's prepared Maven coordinate is `io.github.jona62:handler:0.1.2`.
+The npm, crates.io, and Maven Central packages are not yet published under the coordinates shown in the SDK manifests. Their coordinated `0.1.2` distributions are prepared for registry publication; use these source paths until the registry upload is verified. The published Python 0.1.0 package exports the `run` API used by these examples. Java's prepared Maven coordinate is `io.github.jona62:handler:0.1.2`.
 
 See [Publishing the SDKs](PUBLISHING.md) for tested artifacts, registry account setup, trusted-publisher configuration, and the release workflow. C++ also has a tested [vcpkg overlay](cpp/packaging/README.md).
 
