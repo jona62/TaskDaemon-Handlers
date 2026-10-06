@@ -4,7 +4,7 @@ Native SDKs for building TaskDaemon handlers in any language.
 
 ## Installation
 
-Python `taskdaemon==0.1.0`, Go `v0.1.2`, npm `@taskdaemon/handler` 0.1.2, crates.io `taskdaemon-handler` 0.1.2, and NuGet `TaskDaemon.Handler` 0.1.2 are published and verified. For Java and C++, clone the release source into your handler project's build context:
+Python `taskdaemon==0.1.0`, Go `v0.1.2`, npm `@taskdaemon/handler` 0.1.2, crates.io `taskdaemon-handler` 0.1.2, Maven Central `io.github.jona62:handler` 0.1.2, and NuGet `TaskDaemon.Handler` 0.1.2 are published and verified. For C++, clone the release source into your handler project's build context:
 
 ```bash
 git clone --branch v0.1.2 --depth 1 https://github.com/jona62/TaskDaemon-Handlers.git vendor/TaskDaemon-Handlers
@@ -16,11 +16,11 @@ git clone --branch v0.1.2 --depth 1 https://github.com/jona62/TaskDaemon-Handler
 | Node.js | `npm install --save-exact @taskdaemon/handler@0.1.2`; see [Node.js](nodejs/README.md) |
 | Go | `go get github.com/jona62/TaskDaemon-Handlers/go@v0.1.2` |
 | Rust | `taskdaemon-handler = "=0.1.2"` in Cargo.toml; see [Rust](rust/README.md) |
-| Java | `mvn -f vendor/TaskDaemon-Handlers/java/pom.xml install`, then add the local Maven dependency |
+| Java | Add `io.github.jona62:handler:0.1.2` from Maven Central; see [Java](java/README.md) |
 | C# | `dotnet add handler/handler.csproj package TaskDaemon.Handler --version 0.1.2`; see [C#](csharp/README.md) |
 | C++ | Header-only: copy `vendor/TaskDaemon-Handlers/cpp/include/taskdaemon.hpp` |
 
-Maven Central publication is pending; use the Java source installation until its registry upload is verified. The published Python 0.1.0 package exports the `run` API used by these examples. Java's prepared Maven coordinate is `io.github.jona62:handler:0.1.2`.
+The published Python 0.1.0 package exports the `run` API used by these examples. Java uses Maven coordinate `io.github.jona62:handler:0.1.2` and package imports under `com.taskdaemon`.
 
 See [Publishing the SDKs](PUBLISHING.md) for tested artifacts, registry account setup, trusted-publisher configuration, and the release workflow. C++ also has a tested [vcpkg overlay](cpp/packaging/README.md).
 

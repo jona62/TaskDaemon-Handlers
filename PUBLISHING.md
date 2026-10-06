@@ -2,7 +2,7 @@
 
 The coordinated package version is `0.1.2`. Package preparation and registry publication are separate steps: a successful local build or GitHub source release does not mean a package is available from a language registry.
 
-The [source release](https://github.com/jona62/TaskDaemon-Handlers/releases/tag/v0.1.2) contains the tested distribution artifacts and checksums. Go `v0.1.2`, [npm `@taskdaemon/handler` 0.1.2](https://www.npmjs.com/package/@taskdaemon/handler/v/0.1.2), [crates.io `taskdaemon-handler` 0.1.2](https://crates.io/crates/taskdaemon-handler/0.1.2), and [NuGet `TaskDaemon.Handler` 0.1.2](https://www.nuget.org/packages/TaskDaemon.Handler/0.1.2) are published and verified with isolated consumers. The Python update and Maven Central upload remain pending; PyPI `taskdaemon` 0.1.0 remains available.
+The [source release](https://github.com/jona62/TaskDaemon-Handlers/releases/tag/v0.1.2) contains the tested distribution artifacts and checksums. Go `v0.1.2`, [npm `@taskdaemon/handler` 0.1.2](https://www.npmjs.com/package/@taskdaemon/handler/v/0.1.2), [crates.io `taskdaemon-handler` 0.1.2](https://crates.io/crates/taskdaemon-handler/0.1.2), [Maven Central `io.github.jona62:handler` 0.1.2](https://repo.maven.apache.org/maven2/io/github/jona62/handler/0.1.2/), and [NuGet `TaskDaemon.Handler` 0.1.2](https://www.nuget.org/packages/TaskDaemon.Handler/0.1.2) are published and verified with isolated consumers. The Python update remains pending; PyPI `taskdaemon` 0.1.0 remains available.
 
 The first npm upload requires a token with publishing access and **Bypass two-factor authentication**. crates.io requires a verified account email. Maven Central requires both its publishing token pair and a PGP signing key. Credentials stored in GitHub do not satisfy these separate registry prerequisites by themselves.
 
@@ -12,7 +12,7 @@ The first npm upload requires a token with publishing access and **Bypass two-fa
 | Node.js | npm `@taskdaemon/handler` | Published and verified at `0.1.2`, with provenance |
 | Rust | crates.io `taskdaemon-handler` | Published and verified at `0.1.2` |
 | C# | NuGet `TaskDaemon.Handler` | Published and verified at `0.1.2`, owned by `jonathanmshelia` |
-| Java | Maven Central `io.github.jona62:handler` | Verified GitHub namespace, Portal token, and signing key |
+| Java | Maven Central `io.github.jona62:handler` | Published and verified at `0.1.2`, with PGP signatures |
 | Go | `github.com/jona62/TaskDaemon-Handlers/go` | Push the matching `go/v0.1.2` module tag |
 | C++ | Curated vcpkg `jona62-taskdaemon-handlers` | Upstream review required; local overlay `taskdaemon-handler` is already installable |
 
