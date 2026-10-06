@@ -47,7 +47,60 @@ gh secret set CRATES_IO_TOKEN --repo jona62/TaskDaemon-Handlers
 
 Do not commit credentials or paste them into issue bodies, release notes, or chat. Repository secrets are available to the workflow's environments unless an environment-specific secret overrides them.
 
-For Maven Central, sign in to the Portal with the GitHub account `jona62` and verify the `io.github.jona62` namespace. `CENTRAL_USERNAME` and `CENTRAL_PASSWORD` are the Portal-generated publishing token pair. `MAVEN_GPG_KEY` is an exported armored private signing key; its public key must be discoverable by Central. Set `MAVEN_GPG_PASSPHRASE` if the key is protected and `MAVEN_GPG_KEY_FINGERPRINT` when selecting a key from a multi-key export. The Maven GPG plugin uses its BC signer, so the workflow does not need a GPG executable or a persistent keyring. The checked-in [Central settings file](java/central-settings.xml) contains environment references only.
+## Obtain the first-upload credentials
+
+Create or sign in to each registry account, then save its publishing credentials in [SDK repository Actions secrets](https://github.com/jona62/TaskDaemon-Handlers/settings/secrets/actions) using **New repository secret** and the exact names below. Use a short expiration for bootstrap tokens. Your account login passwords do not need to be stored in GitHub.
+
+### npm: `NPM_TOKEN`
+
+The account must have permission to publish in the `@taskdaemon` scope. Create or join the `taskdaemon` npm organization if you do not already control it. If that scope belongs to someone else, resolve the scope choice before publishing; do not silently rename the package.
+
+On [npm](https://www.npmjs.com), open the profile menu, **Access Tokens**, then **Generate New Token**. Name it `TaskDaemon first publish`. Under **Packages and scopes**, choose **Read and write (publish and stage)** and restrict it to `@taskdaemon`. For the current unattended GitHub workflow, enable **Bypass two-factor authentication** on this restricted temporary token. Give it a short expiration, generate it, and copy it into `NPM_TOKEN`. Organization-management permissions alone do not grant package publishing permission.
+
+After the first upload, configure the existing package's trusted publisher using the owner/repository/workflow/environment above and explicitly allow direct publishing. This removes the need for a stored npm token. Direct publishing with granular tokens is scheduled to end in January 2027, so treat this token as bootstrap access only.
+
+Official instructions: [token creation](https://docs.npmjs.com/creating-and-viewing-access-tokens/), [organization creation](https://docs.npmjs.com/creating-an-organization/), [token publishing changes](https://docs.npmjs.com/about-access-tokens/).
+
+### crates.io: `CRATES_IO_TOKEN`
+
+Sign in to [crates.io](https://crates.io) with GitHub. In [profile settings](https://crates.io/settings/profile), save an email address and verify it using the registry's email. Open [Create API Token](https://crates.io/settings/tokens/new), name it `TaskDaemon GitHub Actions`, and select **Publish new crates** and **Publish new versions of existing crates**. Restrict the crate pattern to `taskdaemon-handler`; it can match the crate before its first publication. Generate the token and copy its one-time value into `CRATES_IO_TOKEN`.
+
+Official instructions: [Cargo publishing](https://doc.rust-lang.org/cargo/reference/publishing.html); [registry token permissions](https://github.com/rust-lang/crates.io/blob/0ea9b2cc5237d037b7e690d26015bc458cf14d28/svelte/src/lib/utils/token-scopes.ts).
+
+### NuGet: `NUGET_API_KEY`, or trusted publishing
+
+Sign in to [NuGet.org](https://www.nuget.org) or create an account. In the username menu, select **API Keys**, then **Create**. Choose **Push new packages and package versions**, restrict the package glob to `TaskDaemon.Handler`, and set an expiration. Create the key, use **Copy**, and paste it into `NUGET_API_KEY`. Permission to push only new versions is insufficient for the first package.
+
+For a token-free alternative, select **Trusted Publishing** in the username menu and add a GitHub policy with owner `jona62`, repository `TaskDaemon-Handlers`, workflow `publish-packages.yml`, environment `nuget`, new-package and new-version scopes, and package glob `TaskDaemon.Handler`. Save the NuGet profile username as the GitHub repository **variable** `NUGET_USER`, rather than as a secret or an email address.
+
+Official instructions: [scoped API keys](https://learn.microsoft.com/en-us/nuget/nuget-org/scoped-api-keys), [trusted publishing](https://learn.microsoft.com/en-us/nuget/nuget-org/trusted-publishing).
+
+### Maven Central: token pair and signing key
+
+Sign in to [Central](https://central.sonatype.com) using GitHub `jona62`. Confirm that `io.github.jona62` appears as verified in **View Namespaces**. Open [User Tokens](https://central.sonatype.com/usertoken), select **Generate User Token**, and enter a display name and expiration. Save its generated username as `CENTRAL_USERNAME` and its generated password as `CENTRAL_PASSWORD`; these are the publishing token pair, not the account's login/password.
+
+The separate signing key is generated locally. With GnuPG installed, create a passphrase-protected RSA signing key and list its fingerprint:
+
+```bash
+gpg --quick-generate-key "Jonathan James <YOUR_PUBLIC_EMAIL>" rsa3072 sign 2y
+gpg --list-secret-keys --fingerprint
+```
+
+Use the name/email you intend to associate publicly with the release. Set the full fingerprint from that output, publish only the public key, and stream the protected private-key export directly into GitHub's secret store:
+
+```bash
+TASKDAEMON_SIGNING_FINGERPRINT='YOUR_FULL_FINGERPRINT'
+gpg --keyserver hkps://keyserver.ubuntu.com --send-keys "$TASKDAEMON_SIGNING_FINGERPRINT"
+gpg --armor --export-secret-keys "$TASKDAEMON_SIGNING_FINGERPRINT" |
+  gh secret set MAVEN_GPG_KEY --repo jona62/TaskDaemon-Handlers
+gh secret set MAVEN_GPG_PASSPHRASE --repo jona62/TaskDaemon-Handlers
+```
+
+The last command prompts for the key passphrase. Keep the original GnuPG key and its revocation certificate backed up; the pipeline does not write a private-key file into the repository. If selecting among multiple exported keys, also set `MAVEN_GPG_KEY_FINGERPRINT` to the full fingerprint.
+
+Official instructions: [Portal tokens](https://central.sonatype.org/publish/generate-portal-token/), [namespace registration](https://central.sonatype.org/register/namespace/), [Central signing requirements](https://central.sonatype.org/publish/requirements/gpg/), [GnuPG key generation](https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html).
+
+The Maven GPG plugin uses its BC signer, so the workflow does not need a GPG executable or a persistent keyring. The checked-in [Central settings file](java/central-settings.xml) contains environment references only.
 
 ## Publish a selected registry
 
